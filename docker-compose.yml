@@ -1,0 +1,61 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: history_master_db
+    environment:
+      POSTGRES_USER: history_master
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: history_master_development
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - history_master_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U history_master"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: history_master_web
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      RAILS_ENV: development
+      DATABASE_URL: postgres://history_master:${POSTGRES_PASSWORD}@db:5432/history_master_development
+      RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
+      HISTORY_MASTER_DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
+      BUNDLE_PATH: /usr/local/bundle
+    volumes:
+      - .:/rails  # Montaje del código para desarrollo
+      - bundle_cache:/usr/local/bundle
+      - storage_data:/rails/storage
+      - log_data:/rails/log
+    ports:
+      - "3000:3000"
+    networks:
+      - history_master_network
+    restart: unless-stopped
+    command: /bin/bash -c "./bin/rails db:prepare && ./bin/rails server -b 0.0.0.0"
+
+volumes:
+  postgres_data:
+    driver: local
+  bundle_cache:
+    driver: local
+  storage_data:
+    driver: local
+  log_data:
+    driver: local
+
+networks:
+  history_master_network:
+    driver: bridge
+
