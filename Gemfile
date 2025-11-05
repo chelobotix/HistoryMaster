@@ -49,6 +49,10 @@ gem 'rack-cors', require: 'rack/cors'
 # Authentication for Rails applications [https://github.com/heartcombo/devise]
 gem "devise", "~> 4.9"
 
+# Authentication for Rails applications [https://github.com/lynndylanhurley/devise_token_auth]
+gem 'devise_token_auth'
+
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
