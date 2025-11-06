@@ -44,13 +44,16 @@ gem "thruster", require: false
 gem "figaro", "~> 1.3"
 
 # Allow CORS requests [https://github.com/cyu/rack-cors]
-gem 'rack-cors', require: 'rack/cors'
+gem "rack-cors", require: "rack/cors"
 
 # Authentication for Rails applications [https://github.com/heartcombo/devise]
 gem "devise", "~> 4.9"
 
 # Authentication for Rails applications [https://github.com/lynndylanhurley/devise_token_auth]
-gem 'devise_token_auth'
+gem "devise_token_auth"
+
+# Redis for caching and session storage [https://github.com/redis/redis-rb]
+gem "redis", "~> 5.4"
 
 
 group :development, :test do
@@ -68,6 +71,3 @@ group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 end
-
-
-gem "devise", "~> 4.9"
