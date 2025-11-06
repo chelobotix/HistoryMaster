@@ -19,6 +19,23 @@ services:
       timeout: 5s
       retries: 5
 
+  redis:
+    image: redis:7-alpine
+    container_name: history_master_redis
+    command: redis-server --appendonly yes
+    volumes:
+      - history_master_redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - history_master_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
   api:
     build:
       context: .
@@ -27,9 +44,14 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      redis:
+        condition: service_healthy
     environment:
       RAILS_ENV: development
       DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PORT}/${POSTGRES_DB}
+      REDIS_URL: redis://redis:6379/0
+      REDIS_POOL_SIZE: 5
+      REDIS_TIMEOUT: 5
       RAILS_MASTER_KEY: ${RAILS_MASTER_KEY}
       HISTORY_MASTER_DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
       BUNDLE_PATH: /usr/local/bundle
@@ -48,6 +70,8 @@ services:
 volumes:
   history_master_postgres_data:
     driver: local
+  history_master_redis_data:
+    driver: local
   history_master_bundle_cache:
     driver: local
   history_master_storage_data:
@@ -58,4 +82,3 @@ volumes:
 networks:
   history_master_network:
     driver: bridge
-

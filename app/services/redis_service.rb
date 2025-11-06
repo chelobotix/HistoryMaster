@@ -45,10 +45,10 @@ class RedisService
   end
 
   def pool_size
-    ENV["REDIS_POOL_SIZE"].to_i
+    (ENV["REDIS_POOL_SIZE"].presence || 5).to_i
   end
 
   def timeout
-    ENV["REDIS_TIMEOUT"].to_i
+    (ENV["REDIS_TIMEOUT"].presence || 5).to_i
   end
 end
