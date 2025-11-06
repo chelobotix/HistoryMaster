@@ -40,7 +40,7 @@ class RedisService
   def redis_config
     {
       url: ENV["REDIS_URL"],
-      ssl_params: Rails.env.production? ? { verify_mode: OpenSSL::SSL::VERIFY_NONE } : nil
+      ssl_params: nil
     }
   end
 
