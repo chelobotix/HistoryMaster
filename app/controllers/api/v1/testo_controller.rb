@@ -3,6 +3,7 @@ class Api::V1::TestoController < ApplicationController
 
   def test
     puts ENV["JWT_SECRET_KEY"]
+    puts ENV["JWT_SECRET_KEY"]
 
     render json: { message: "test" }
   end
