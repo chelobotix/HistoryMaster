@@ -11,6 +11,8 @@ class RedisService
 
   def with(&block)
     connection.with(&block)
+  rescue Redis::CannotConnectError => e
+    Rails.logger.error "Redis connection error: #{e.message}"
   end
 
   def get(key)
