@@ -52,6 +52,9 @@ gem "devise", "~> 4.9"
 # Authentication for Rails applications [https://github.com/lynndylanhurley/devise_token_auth]
 gem 'devise_token_auth'
 
+# Redis [https://github.com/redis/redis-rb]
+gem "redis"
+
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
