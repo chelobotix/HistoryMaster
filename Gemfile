@@ -44,13 +44,13 @@ gem "thruster", require: false
 gem "figaro", "~> 1.3"
 
 # Allow CORS requests [https://github.com/cyu/rack-cors]
-gem 'rack-cors', require: 'rack/cors'
+gem "rack-cors", require: "rack/cors"
 
 # Authentication for Rails applications [https://github.com/heartcombo/devise]
 gem "devise", "~> 4.9"
 
 # Authentication for Rails applications [https://github.com/lynndylanhurley/devise_token_auth]
-gem 'devise_token_auth'
+gem "devise_token_auth"
 
 # Redis [https://github.com/redis/redis-rb]
 gem "redis"
