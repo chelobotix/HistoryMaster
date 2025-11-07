@@ -2,7 +2,9 @@ Rails.application.routes.draw do
   require "sidekiq/web"
 
   # Sidekiq web interface
+  Sidekiq::Web.set :poll_interval, 300_000
   mount Sidekiq::Web => "/sidekiq"
+
 
   mount_devise_token_auth_for "User", at: "auth"
 
