@@ -3,10 +3,10 @@ require "uri"
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
     if Rails.env.development?
-      origins "*"
-      #"http://127.0.0.1:3000",
-              # "http://localhost:3000",
-              # "http://localhost:4200"
+      origins "http://127.0.0.1:3000",
+              "http://localhost:3000",
+              "http://localhost:4200",
+              "https://historymaster-production.up.railway.app"
     elsif Rails.env.production?
       origins do |origin, env|
         return false if origin.nil?
@@ -24,7 +24,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
     end
 
     # The resource(s) to allow CORS for
-    resource "*",
+    resource "/api/v1/*",
              headers: :any,
              methods: [ :get, :post, :options, :head ]
   end

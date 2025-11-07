@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
-  mount_devise_token_auth_for "User", at: "auth", controllers: {
-    # omniauth_callbacks: "auth/omniauth_callbacks"
-  }
+  require "sidekiq/web"
 
-  get "auth/google_callback", to: "auth/oauth2_authorization#google_callback"
+  # Sidekiq web interface
+  mount Sidekiq::Web => "/sidekiq"
+
+
+  mount_devise_token_auth_for "User", at: "auth"
 
   namespace :api do
     namespace :v1 do

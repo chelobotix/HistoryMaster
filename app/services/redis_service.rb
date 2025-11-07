@@ -11,6 +11,8 @@ class RedisService
 
   def with(&block)
     connection.with(&block)
+  rescue Redis::CannotConnectError => e
+    Rails.logger.error "Redis connection error: #{e.message}"
   end
 
   def get(key)
@@ -40,15 +42,15 @@ class RedisService
   def redis_config
     {
       url: ENV["REDIS_URL"],
-      ssl_params: Rails.env.production? ? { verify_mode: OpenSSL::SSL::VERIFY_NONE } : nil
+      ssl_params: nil
     }
   end
 
   def pool_size
-    ENV["REDIS_POOL_SIZE"].to_i
+    (ENV["REDIS_POOL_SIZE"].presence || 5).to_i
   end
 
   def timeout
-    ENV["REDIS_TIMEOUT"].to_i
+    (ENV["REDIS_TIMEOUT"].presence || 5).to_i
   end
 end

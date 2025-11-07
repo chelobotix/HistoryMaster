@@ -52,8 +52,11 @@ gem "devise", "~> 4.9"
 # Authentication for Rails applications [https://github.com/lynndylanhurley/devise_token_auth]
 gem "devise_token_auth"
 
-# Redis for caching and session storage [https://github.com/redis/redis-rb]
-gem "redis", "~> 5.4"
+# Redis [https://github.com/redis/redis-rb]
+gem "redis"
+
+# Background processing with Sidekiq [https://github.com/mperham/sidekiq]
+gem "sidekiq"
 
 
 group :development, :test do
