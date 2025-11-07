@@ -1,8 +1,21 @@
 class Auth::Oauth2AuthorizationController < ApplicationController
   require "net/http"
   require "json"
-  skip_before_action :verify_authenticity_token
-  skip_before_action :authenticate_user!, only: [ :google_callback ]
+
+  skip_before_action :authenticate_user!, only: [ :google_state_token ]
+
+  def google_state_token
+    binding.break
+    service = Auth::StateTokenGenerator.new(request: request, provider: :GOOGLE)
+    service.call
+
+    if service.valid?
+      response.headers['State-Token'] = service.state_token
+      render json: { result: "ok" }, status: :ok
+    else
+      render json: { error: service.errors }, status: :unprocessable_entity
+    end
+  end
 
   def google_callback
     binding.break
