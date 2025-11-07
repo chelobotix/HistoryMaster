@@ -47,7 +47,7 @@ services:
       redis:
         condition: service_healthy
     environment:
-      RAILS_ENV: development
+      RAILS_ENV: production
       DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PORT}/${POSTGRES_DB}
       REDIS_URL: redis://redis:6379/0
       REDIS_POOL_SIZE: 5
