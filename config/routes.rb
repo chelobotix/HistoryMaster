@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   end
 
   namespace :auth do
-    get "google_state_token", to: "oauth2_authorization#google_state_token"
+    get "generate_google_auth_url", to: "oauth2_authorization#generate_google_auth_url"
     get "google_callback", to: "oauth2_authorization#google_callback"
   end
 
