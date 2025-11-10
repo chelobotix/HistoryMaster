@@ -15,8 +15,8 @@ module BaseService
     @valid = true
   end
 
-  def set_errors(errors)
-    Rails.logger.error("⛔ >>>>>-----> #{errors}\n") unless Rails.env.test?
-    @errors = errors
+  def set_errors(code, message)
+    Rails.logger.error("⛔ >>>>>-----> #{self.class.name}: code: #{code}, error: #{message}\n") unless Rails.env.test?
+    @errors = { reference: self.class.name, code: code, message: message }
   end
 end

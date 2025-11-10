@@ -1,0 +1,7 @@
+module Auth
+  module ErrorCodes
+    INVALID_REQUEST_TYPE = 1000
+    INVALID_PROVIDER = 1001
+    INVALID_ENCRYPTED_PAYLOAD = 1002
+  end
+end
