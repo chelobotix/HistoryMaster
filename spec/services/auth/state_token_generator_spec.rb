@@ -65,7 +65,7 @@ RSpec.describe Auth::StateTokenGenerator, type: :service do
           service.call
 
           expect(service.valid?).to be_falsey
-          expect(service.errors[:code]).to eq(Auth::ErrorCodes::INVALID_REQUEST_TYPE)
+          expect(service.errors).to include("code: #{Auth::ErrorCodes::INVALID_REQUEST_TYPE}")
           expect(service.state_token).to be_nil
         end
       end
@@ -77,7 +77,7 @@ RSpec.describe Auth::StateTokenGenerator, type: :service do
           service.call
 
           expect(service).not_to be_valid
-          expect(service.errors[:code]).to eq(Auth::ErrorCodes::INVALID_PROVIDER)
+          expect(service.errors).to include("code: #{Auth::ErrorCodes::INVALID_PROVIDER}")
           expect(service.state_token).to be_nil
         end
       end
@@ -92,7 +92,7 @@ RSpec.describe Auth::StateTokenGenerator, type: :service do
           service.call
 
           expect(service).not_to be_valid
-          expect(service.errors[:code]).to eq(Auth::ErrorCodes::INVALID_ENCRYPTED_PAYLOAD)
+          expect(service.errors).to include("code: #{Auth::ErrorCodes::INVALID_ENCRYPTED_PAYLOAD}")
           expect(service.state_token).to be_nil
         end
       end
@@ -106,7 +106,7 @@ RSpec.describe Auth::StateTokenGenerator, type: :service do
           service.call
 
           expect(service).not_to be_valid
-          expect(service.errors[:code]).to eq(Errors::GlobalCodes::REDIS_CONNECTION_ERROR)
+          expect(service.errors).to include("code: #{Errors::GlobalCodes::REDIS_CONNECTION_ERROR}")
           expect(service.state_token).to be_nil
         end
       end
@@ -248,7 +248,7 @@ RSpec.describe Auth::StateTokenGenerator, type: :service do
           service.call
 
           expect(service).not_to be_valid
-          expect(service.errors[:code]).to eq(Auth::ErrorCodes::INVALID_ENCRYPTED_PAYLOAD)
+          expect(service.errors).to include("code: #{Auth::ErrorCodes::INVALID_ENCRYPTED_PAYLOAD}")
         end
       end
 
@@ -262,7 +262,7 @@ RSpec.describe Auth::StateTokenGenerator, type: :service do
           service.call
 
           expect(service).not_to be_valid
-          expect(service.errors[:code]).to eq(Auth::ErrorCodes::INVALID_ENCRYPTED_PAYLOAD)
+          expect(service.errors).to include("code: #{Auth::ErrorCodes::INVALID_ENCRYPTED_PAYLOAD}")
         end
       end
     end

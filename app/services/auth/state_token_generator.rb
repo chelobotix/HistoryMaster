@@ -37,7 +37,7 @@ module Auth
 
     rescue => e
       set_as_invalid!
-      set_errors(e.code, e.message)
+      set_errors(e.message)
     end
 
     private
@@ -69,7 +69,7 @@ module Auth
     # @raise [StandardError] If the request is nil or not an ActionDispatch::Request
     def validate_request
       if request.blank? || !request.is_a?(ActionDispatch::Request)
-        raise Errors::Custom.new(code: ErrorCodes::INVALID_REQUEST_TYPE, message: "Request is invalid")
+        raise StandardError.new("code: #{ErrorCodes::INVALID_REQUEST_TYPE}: Request is invalid")
       end
     end
 
@@ -79,7 +79,7 @@ module Auth
     # @raise [StandardError] If the provider is not included in PROVIDERS
     def validate_provider
       if !PROVIDERS.include?(provider)
-        raise Errors::Custom.new(code: ErrorCodes::INVALID_PROVIDER, message: "Provider is invalid")
+        raise StandardError.new("code: #{ErrorCodes::INVALID_PROVIDER}: Provider is invalid")
       end
     end
 
@@ -111,10 +111,7 @@ module Auth
       )
 
     rescue Redis::CannotConnectError => e
-      raise Errors::Custom.new(
-        code: Errors::GlobalCodes::REDIS_CONNECTION_ERROR,
-        message: "Redis connection error: #{e.message}"
-      )
+      raise StandardError.new("code: #{Errors::GlobalCodes::REDIS_CONNECTION_ERROR}: Redis connection error: #{e.message}")
     end
 
     # Encrypts the Redis key to generate the final state token
@@ -126,10 +123,7 @@ module Auth
       @state_token = encryptor.encrypt(data)
 
     rescue ActiveSupport::MessageVerifier::InvalidSignature, ActiveSupport::MessageEncryptor::InvalidMessage => e
-      raise Errors::Custom.new(
-        code: ErrorCodes::INVALID_ENCRYPTED_PAYLOAD,
-        message: "Invalid encrypted payload #{e.message}"
-      )
+      raise StandardError.new("code: #{ErrorCodes::INVALID_ENCRYPTED_PAYLOAD}: Invalid encrypted payload #{e.message}")
     end
   end
 end

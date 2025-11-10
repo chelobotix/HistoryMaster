@@ -34,7 +34,7 @@ module Auth
 
     rescue => e
       set_as_invalid!
-      set_errors(e.code, e.message)
+      set_errors(e.message)
     end
 
     private
