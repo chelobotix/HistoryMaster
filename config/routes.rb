@@ -16,7 +16,7 @@ Rails.application.routes.draw do
 
   namespace :auth do
     get "generate_google_auth_url", to: "oauth2_authorization#generate_google_auth_url"
-    get "google_callback", to: "oauth2_authorization#google_callback"
+    post "google_callback", to: "oauth2_authorization#google_callback"
   end
 
   get "up" => "rails/health#show", as: :rails_health_check

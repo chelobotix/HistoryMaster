@@ -58,6 +58,9 @@ gem "redis"
 # Background processing with Sidekiq [https://github.com/mperham/sidekiq]
 gem "sidekiq"
 
+# JWT [https://github.com/jwt/ruby-jwt]
+gem "jwt", "~> 3.1"
+
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
@@ -85,4 +88,3 @@ group :test do
   # Factory Bot [https://github.com/thoughtbot/factory_bot_rails]
   gem "factory_bot_rails"
 end
-

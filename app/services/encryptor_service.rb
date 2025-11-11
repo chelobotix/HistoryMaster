@@ -14,10 +14,12 @@ class EncryptorService
   end
 
   def encrypt(payload)
-    encryptor.encrypt_and_sign(payload)
+    encrypted_payload = encryptor.encrypt_and_sign(payload)
+    Base64.urlsafe_encode64(encrypted_payload)
   end
 
   def decrypt(encrypted_payload)
-    encryptor.decrypt_and_verify(encrypted_payload)
+    decrypted_payload = Base64.urlsafe_decode64(encrypted_payload)
+    encryptor.decrypt_and_verify(decrypted_payload)
   end
 end

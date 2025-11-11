@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Auth::GoogleAuthGenerator, type: :service do
+RSpec.describe Auth::Google::AuthUrlGenerator, type: :service do
   let(:request) { instance_double(ActionDispatch::Request, user_agent: 'Mozilla/5.0', ip: '192.168.1.1') }
   let(:state_token_service_class) { class_double(Auth::StateTokenGenerator) }
   let(:state_token_service_instance) { instance_double(Auth::StateTokenGenerator) }
@@ -37,7 +37,7 @@ RSpec.describe Auth::GoogleAuthGenerator, type: :service do
         service.call
 
         expect(service.url).to be_a(String)
-        expect(service.url).to include(ENV["BASE_URL"])
+        expect(service.url).to include(ENV["GOOGLE_BASE_URL"])
         expect(service.url).to include("state=#{state_token}")
         expect(service.url).to include("client_id=#{ENV["GOOGLE_CLIENT_ID"]}")
         expect(service.url).to include("redirect_uri=#{ENV["GOOGLE_REDIRECT_URL"]}")
@@ -130,7 +130,7 @@ RSpec.describe Auth::GoogleAuthGenerator, type: :service do
         service = described_class.new(request: request, state_token_service: state_token_service_class)
         service.call
 
-        expect(service.url).to start_with(ENV["BASE_URL"])
+        expect(service.url).to start_with(ENV["GOOGLE_BASE_URL"])
       end
 
       it 'includes the state token in the URL' do
@@ -186,7 +186,7 @@ RSpec.describe Auth::GoogleAuthGenerator, type: :service do
       service.call
 
       expect(service).to be_valid
-      expect(service.url).to eq("#{ENV["BASE_URL"]}?state=#{state_token}&client_id=#{ENV["GOOGLE_CLIENT_ID"]}&redirect_uri=#{ENV["GOOGLE_REDIRECT_URL"]}&response_type=code&scope=email profile")
+      expect(service.url).to eq("#{ENV["GOOGLE_BASE_URL"]}/o/oauth2/auth?state=#{state_token}&client_id=#{ENV["GOOGLE_CLIENT_ID"]}&redirect_uri=#{ENV["GOOGLE_REDIRECT_URL"]}&response_type=code&scope=email profile")
       expect(service.errors).to be_nil
     end
     it 'generates different URLs when called multiple times with different tokens' do

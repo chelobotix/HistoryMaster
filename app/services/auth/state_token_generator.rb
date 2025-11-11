@@ -4,10 +4,8 @@ module Auth
 
     PROVIDERS = [ :GOOGLE ].freeze
     private_constant :PROVIDERS
-
     EXPIRATION_TIME = ENV["STATE_TOKEN_EXPIRATION_TIME"].to_i.minutes.freeze
     private_constant :EXPIRATION_TIME
-
     STATE_TOKEN_SECRET = ENV["STATE_TOKEN_SECRET"].freeze
     private_constant :STATE_TOKEN_SECRET
 
